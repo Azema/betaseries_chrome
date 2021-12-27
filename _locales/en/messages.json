@@ -1,0 +1,22 @@
+{
+   "name_extension": {
+      "description": "BetaSeries Extension",
+      "message": "BetaSeries Extension"
+   },
+   "popup_button_connection": {
+      "description": "Connection",
+      "message": "Connection"
+   },
+   "popup_button_settings": {
+      "description": "Open",
+      "message": "Open"
+   },
+   "popup_label_connection": {
+      "description": "Sign in to your BetaSeries account:",
+      "message": "Sign in to your BetaSeries account:"
+   },
+   "popup_label_settings": {
+      "description": "Go to SVOD platforms synchronisation:",
+      "message": "Go to SVOD platforms synchronisation:"
+   }
+}

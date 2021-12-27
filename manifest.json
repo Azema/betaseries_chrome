@@ -1,0 +1,32 @@
+{
+   "background": {
+      "scripts": [ "background.js", "/js/localStorage.js", "config.js", "callApi.js", "/js/computeDataNetflix.js" ]
+   },
+  "content_scripts": [
+      {
+         "matches": [ "*://*.netflix.com/*" ],
+         "exclude_matches": [ "*://*.netflix.com/api/*" ],
+         "js": [ "/js/netflixCS.js" ]
+      }
+   ],
+   "browser_action": {
+      "default_icon": {
+         "128": "images/128.png",
+         "16": "images/16.png",
+         "32": "images/32.png",
+         "48": "images/48.png"
+      }
+   },
+   "default_locale": "fr",
+   "description": "Connecter vos plateformes SVOD pour synchroniser vos épisodes vus sur BetaSeries",
+   "icons": {
+      "128": "images/128.png",
+      "16": "images/16.png",
+      "32": "images/32.png",
+      "48": "images/48.png"
+   },
+   "manifest_version": 2,
+   "name": "BetaSeriesHome",
+   "permissions": [ "cookies", "tabs", "activeTab", "storage", "alarms", "*://*.netflix.com/", "*://*.arte.tv/", "*://*.canalplus.com/" ],
+   "version": "1.1.21"
+}

@@ -1,0 +1,22 @@
+{
+  "name": "extension-betaseries",
+  "version": "1.1.21",
+  "description": "Find the platforms SVOD cookies to log in the betaseries account",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "translation": "node load_translate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betaseries/chrome.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/betaseries/chrome/issues"
+  },
+  "homepage": "https://github.com/betaseries/chrome#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

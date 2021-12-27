@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      html {
+        width: 300px;
+      }
+      body {
+        margin: 0;
+      }
+      section {
+        margin: 5px;
+      }
+      button {
+        outline: none;
+      }
+      header {
+        display: flex;
+        justify-items: flex-start;
+        background-color: #3b8dd0;;
+      }
+      header img {
+        height: 40px;
+      }
+      .container_section {
+        display: none;
+      }
+    </style>
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="js/handler.js"></script>
+    <script type="text/javascript" src="js/popup.js"></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/128.png">
+  </head>
+
+  <body>
+    <header>
+      <img src="/images/logo-white.png" alt="BetaSeries" />
+    </header>
+    <section id="logoutAccountBS" class="container_section">
+      <span data-trans="popup_label_connection">
+      </span>
+      <button id="connectAccountBS" data-trans="popup_button_connection"></button>
+    </section>
+    <section id="loggedAccountBS" class="container_section">
+      <span data-trans="popup_label_settings">
+      </span>
+      <button id="openSettingsSynchro" data-trans="popup_button_settings"></button>
+    </section>
+  </body>
+</html>

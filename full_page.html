@@ -1,0 +1,66 @@
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      media="screen"
+      type="text/css"
+      href="/full_page.css"
+    />
+    <script type="text/javascript" src="config.js"></script>
+    <script type="text/javascript" src="/js/handler.js"></script>
+    <script type="text/javascript" src="/js/utils/full_page_utils.js"></script>
+    <script type="text/javascript" src="/js/full_page.js"></script>
+    <script type="text/javascript" src="translator.js"></script>
+    <script type="text/javascript" src="/js/translation.js"></script>
+    <script type="text/javascript" src="/js/write.js"></script>
+    <title data-trans="tabs.title">Extension BetaSeries</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/128.png">
+  </head>
+  <body>
+    <div class="container">
+      <p class="logo">
+        <img src="/images/logo.png" alt="BetaSeries">
+        <button type="button" id="checkProfilesNetflix">checkProfilesNetflix</button>
+      </p>
+      <div id="connect">
+        <section class="block-explaination-syncro">
+          <p>
+            <span data-trans="explaination-syncro"></span>
+          </p>
+        </section>
+        <section id="loginAccountBS" class="container_section">
+          <p class="center"><a href="#" id="connectAccountBS"><span data-trans="label.login"></span></a></p>
+        </section>
+      </div>
+      <div id="logged">
+        <section id="loggedAccountBS" class="container_section">
+          <section class="block-explaination-syncro">
+            <p>
+              <span data-trans="explaination-syncro"></span>
+            </p>
+          </section>
+          <section
+                  id="container-list-platforms"
+                  class="container-list-platforms"
+          ></section>
+          <section class="block-explaination-syncro">
+            <p>
+              <span class="sub-title-explanation" data-trans="explaination-syncro.sub-title"></span>
+            </p>
+          </section>
+          <section class="block-logout">
+            <p><button class="btn-base" id="disconnectAccountBS" data-trans="label.button.logout"></button></p>
+          </section>
+        </section>
+      </div>
+    </div>
+    <div id="container-modal" class="container-modal">
+      <div class="modal">
+        <img id="close-modal" class="close_modal" style="z-index: 2;" src="/images/faceboxclose.gif">
+      <span id="content-modal"></span>
+      </div>
+    </div>
+  </body>
+</html>
