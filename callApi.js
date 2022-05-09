@@ -63,10 +63,7 @@ function callNetflixProfiles(cookiesList, html) {
         }),
         body: formData,
       })
-        .then((res) => res.json())
-        .then((resp) => {
-          resolve(resp);
-        });
+        .then((res) => resolve(res.json()))
     });
   });
 }
@@ -110,7 +107,41 @@ function callNetflixHome() {
       .catch((err) => reject(err));
   });
 }
-
+function callBsApi(type, resource, action, args = {}) {
+  return new Promise((resolve, reject) => {
+    readStorage('bsat').then(res => {
+      let uri = config.api + '/' + resource + '/' + action;
+      const keys = Object.keys(args);
+      let initFetch = {
+        method: type,
+        headers: new Headers({
+          "X-BetaSeries-Key": config.app.api_key,
+          "X-BetaSeries-Token": res,
+          "X-BetaSeries-Version": config.app.api_version
+        }),
+        mode: "cors"
+      };
+      // On crée l'URL de la requête de type GET avec les paramètres
+      if (type === 'GET' && keys.length > 0) {
+          let params = [];
+          for (let key of keys) {
+              params.push(key + '=' + encodeURIComponent(args[key]));
+          }
+          uri += '?' + params.join('&');
+      } else if (keys.length > 0) {
+          initFetch.body = new URLSearchParams(args);
+      }
+      fetch(uri, initFetch)
+      .then(res => res.json())
+      .then(resp => {
+        resolve(resp);
+      }).catch(err => {
+        console.warn("Erreur fetch API BS: ", err);
+        reject(err);
+      });
+    });
+  });
+}
 function callNetflixGuidAccount() {
   return new Promise((resolve) => {
     readStorage("bsat").then((res) => {

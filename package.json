@@ -18,5 +18,9 @@
   "homepage": "https://github.com/betaseries/chrome#readme",
   "dependencies": {
     "node-fetch": "^2.6.1"
-  }
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.176"
+  },
+  "types": "chrome"
 }

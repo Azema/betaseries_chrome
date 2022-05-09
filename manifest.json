@@ -28,5 +28,5 @@
    "manifest_version": 2,
    "name": "BetaSeriesHome",
    "permissions": [ "cookies", "tabs", "activeTab", "storage", "alarms", "*://*.netflix.com/", "*://*.arte.tv/", "*://*.canalplus.com/" ],
-   "version": "1.1.21"
+   "version": "1.2.7"
 }

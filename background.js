@@ -61,103 +61,100 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
-  if (request.type == "lastUpdateNetflix") {
-    localStorage.get("last_update_netflix").then((resp) => sendResponse(resp));
-    return true;
-  }
-  if (request.type == "forceUpdateNetflix") {
-    createNetflix();
-    const dataLastUpdateNetflix = forceUpdate("netflix");
-    sendResponse(dataLastUpdateNetflix);
-    return true;
-  }
-  if (request.type == "checkCookie") {
-    Promise.all(checkCookies(request.name))
-      .then((cookies) => {
-        const checkAllCookies = cookies.filter((item) => item !== null);
-        if (cookies.length !== checkAllCookies.length)
-          return sendResponse(null);
-        const cookiesCompute = checkAllCookies.reduce(
-          (acc, item) => ({ ...acc, [item.name]: item.value }),
-          {}
-        );
-        if (request.name === "netflix") {
-          callNetflixHome().then((rep) => {
-            callNetflixProfiles(checkAllCookies, rep)
-              .then((retour) => sendResponse(retour))
-              .catch((err) => {
-                console.log(`err callNetflixHOME`, err);
-                return sendResponse(null);
-              });
-          });
+  switch (request.type) {
+    case "lastUpdateNetflix":
+      localStorage.get("last_update_netflix").then((resp) => sendResponse(resp));
+      break;
+    case "forceUpdateNetflix":
+      createNetflix();
+      const dataLastUpdateNetflix = forceUpdate("netflix");
+      sendResponse(dataLastUpdateNetflix);
+      break;
+    case "checkCookie":
+      Promise.all(checkCookies(request.name))
+        .then((cookies) => {
+          const checkAllCookies = cookies.filter((item) => item !== null);
+          if (cookies.length !== checkAllCookies.length)
+            return sendResponse(null);
+          const cookiesCompute = checkAllCookies.reduce(
+            (acc, item) => ({ ...acc, [item.name]: item.value }),
+            {}
+          );
+          if (request.name === "netflix") {
+            callNetflixHome().then((rep) => {
+              callNetflixProfiles(checkAllCookies, rep)
+                .then((retour) => sendResponse(retour))
+                .catch((err) => {
+                  console.log(`err callNetflixHOME`, err);
+                  return sendResponse(null);
+                });
+            });
 
-          return;
-        } else if (request.name === "arte") {
-          callArteSync(cookiesCompute["lr-user--token"]).then((r) => {
-            sendResponse(r);
-          });
-          return true;
-        } else {
-          sendResponse(null);
-        }
-      })
-      .catch((error) => sendResponse(null));
-    return true;
-  }
-  if (request.type === "netflixSync") {
-    createNetflix();
-    callNetflixSync(request.cookie, request.guid, request.profile).then((r) => {
-      sendResponse(r);
-    });
-    return true;
-  }
-  if (request.type === "token") {
-    readStorage(request.name).then((res) => {
-      sendResponse(res);
-    });
-    return true;
-  }
-  if (request.type === "openSettings") {
-    chrome.tabs.create({
-      url: chrome.extension.getURL("full_page.html"),
-    });
-    sendResponse("open");
-    return true;
-  }
-  if (request.type === "logout") {
-    resetStorage().then(() => {
-      sendResponse("LOGOUT");
-    });
-    return true;
-  }
-  if (request.type === "callCheckSynchroPlatform") {
-    callCheckSynchroPlatform(request.access_token, request.platform).then(
-      (res) => {
-        if (request.platform === "netflix" && res?.profile?.length > 0) {
-          createNetflix();
-          sendResponse(true);
-        } else if (request.platform === "arte" && res?.email?.length > 0) {
-          sendResponse(true);
-        } else {
-          sendResponse(false);
-        }
-      }
-    );
-    return true;
-  }
-  if (request.type === 'request_profiles_netflix') {
-    chrome.tabs.query({url: '*://*.netflix.com/*'}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {type: "guid", service: 'netflix'}, function(response) {
-        console.log(response);
-        sendResponse(response);
+            return;
+          } else if (request.name === "arte") {
+            callArteSync(cookiesCompute["lr-user--token"]).then((r) => {
+              sendResponse(r);
+            });
+            return true;
+          } else {
+            sendResponse(null);
+          }
+        })
+        .catch((error) => sendResponse(null));
+        break;
+    case "netflixSync":
+      createNetflix();
+      callNetflixSync(request.cookie, request.guid, request.profile).then((r) => {
+        sendResponse(r);
       });
-    });
-    return true;
+      break;
+    case "token":
+      readStorage(request.name).then((res) => {
+        sendResponse(res);
+      });
+      break;
+    case "openSettings":
+      chrome.tabs.create({
+        url: chrome.extension.getURL("full_page.html"),
+      });
+      sendResponse("open");
+      break;
+    case "logout":
+      resetStorage().then(() => {
+        sendResponse("LOGOUT");
+      });
+      break;
+    case "callCheckSynchroPlatform":
+      callCheckSynchroPlatform(request.access_token, request.platform).then(
+        (res) => {
+          if (request.platform === "netflix" && res?.profile?.length > 0) {
+            createNetflix();
+            sendResponse(true);
+          } else if (request.platform === "arte" && res?.email?.length > 0) {
+            sendResponse(true);
+          } else {
+            sendResponse(false);
+          }
+        }
+      );
+      break;
+    case 'request_profiles_netflix':
+      chrome.tabs.query({url: '*://*.netflix.com/*'}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: "guid", service: 'netflix'}, function(response) {
+          console.log(response);
+          sendResponse(response);
+        });
+      });
+      break;
+    case "callRemovePlatformSVOD":
+      callRemovePlatformSVOD(request.platform).then((res) => sendResponse(res));
+      break;
+    case 'playend':
+      console.log('message received playend', request);
+      callWatchedEpisode(request.data);
+      break;
   }
-  if (request.type === "callRemovePlatformSVOD") {
-    callRemovePlatformSVOD(request.platform).then((res) => sendResponse(res));
-    return true;
-  }
+  return true;
 });
 
 chrome.tabs.onUpdated.addListener((r, changeInfo, tab) => {
