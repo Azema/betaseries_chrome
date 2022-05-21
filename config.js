@@ -29,7 +29,7 @@ const config = {
     api_key: "9676a6078b37",
     secret_key: "a7a57fdeba8e90715ffd32bbcad7dee0",
     api_version: "3.0",
-    member_id: "464427"
+    member_id: ""
   },
   listCookies: {
     netflix: [
